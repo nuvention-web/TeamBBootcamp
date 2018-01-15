@@ -1,0 +1,51 @@
+<head>
+  <meta charset="utf-8">
+  <title>Todos $http</title>
+  <link rel="stylesheet">
+  <script>document.write("<base href=\"" + document.location + "\" />");</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.js"></script>
+  <script src="app.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css"/>
+</head>
+<body class="pa6">
+  <div class=" sans-serif tc black bg-light-yellow mb1 pa2 ba bw2">
+    <form>
+      <span class="b"> owner: </span> <input [(ngModel)]="repositoryowner" placeholder=" enter repository owner" class="input_reset" name="repository owner">
+      &nbsp;&nbsp;&nbsp;
+      <span class="b"> name: </span> <input [(ngModel)]="repositoryname" placeholder=" enter repository name" class="input_reset" name="repository name">
+
+      <input type="submit" (click)="getStatusReport(repositoryowner,repositoryname)" value="create report" class="input_reset">
+    </form>
+
+    </div>
+  <span *ngIf="openissues || closedissues">
+  <div class=" sans-serif tc black bg-light-yellow pa4 ba bw2">
+      <h1 contenteditable="true"> Status Report: Repository</h1>
+  <section id="info">
+    <p><span class="b">week:</span> today to seven days from today</p>
+    <p><span class="b">milestone: </span> 1st sprint
+    <span class="b">next milestone:</span> 2nd sprint</p>
+  </section>
+  <section id="summary">
+    <h2> summary </h2>
+    <p contenteditable="true"> block of text block of text block of text block of text block of text</p>
+  </section>
+  <section id="c_stories">
+    <h2> completed stories </h2>
+    <ul class="list pl0 tl">
+      <li *ngFor="let issue of closedissues">
+      <span class="b">{{issue.number}} </span> {{issue.title}} by <em>{{issue.user.login}}</em>
+      </li>
+    </ul>
+  </section>
+  <section is="o_stories">
+    <h2> new stories for next milestone </h2>
+    <ul class="list pl0 tl">
+      <li *ngFor="let issue of openissues">
+      <span class="b">{{issue.number}} </span>  {{issue.title}}
+      </li>
+    </ul>
+  </section>
+  </div>
+</span>
+</body>
