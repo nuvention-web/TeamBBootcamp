@@ -35,7 +35,7 @@ export class IssueService {
 	/** GET heroes from the server */
 	getIssues (repositoryUrl) {
 	  return this.http.get(repositoryUrl)
-	    .pipe(catchError(this.handleError('getHeroes', [])));
+	    .pipe(catchError(this.handleError('getIssues', [])));
 	}
 
 }
