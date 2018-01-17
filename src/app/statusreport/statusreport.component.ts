@@ -24,6 +24,21 @@ export class StatusreportComponent implements OnInit {
   	this.getIssues(repositoryUrl);
   }
 
+  downloadPage(): void {
+    var html = document.getElementById('body').innerHTML;
+    var htmlContent = [html];
+    var bl = new Blob(htmlContent, {type: "text/html"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(bl);
+    var savename = prompt("what do you want to save the file as?");
+    a.download = savename;
+    a.hidden = true;
+    document.body.appendChild(a);
+    a.innerHTML = "something random - nobody will see this, it doesn't matter what you put here";
+    a.click();
+
+  }
+
   filterIssues(issues): void {
   	this.openissues = issues.filter(issue => issue.state == "open")
   	this.closedissues = issues.filter(issue => issue.state == "closed")
