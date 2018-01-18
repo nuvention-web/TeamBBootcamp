@@ -7,10 +7,6 @@
     <input type="submit" (click)="getStatusReport(repositoryowner,repositoryname)" value="create report" class="input_reset">
   </form>
 </div>
-<head>
-  <meta charset="utf-8">
-  <title>Todos $http</title>
-</head>
 <div id="body">
   <link rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css"/>
@@ -19,9 +15,9 @@
     <div class=" sans-serif tc black bg-light-yellow pa4 ba bw2">
         <h1 contenteditable="true"> Status Report: {{repositoryowner}}/{{repositoryname}}</h1>
     <section id="info">
-      <p><span class="b">week:</span> today to seven days from today</p>
-      <p><span class="b">milestone: </span> 1st sprint
-      <span class="b">next milestone:</span> 2nd sprint</p>
+      <p><span class="b">week:</span> <span contenteditable="true">{{getDateSomeDaysAgo(7)}} - {{dateString}}</span></p>
+      <p><span class="b">current milestone: </span> {{currentMilestone}}
+      <span class="b">next milestone:</span> {{nextMilestone}} </p>
     </section>
     <section id="summary">
       <h2> summary </h2>
@@ -31,20 +27,20 @@
       <h2> completed stories </h2>
       <ul class="list pl0 tl">
         <li *ngFor="let issue of closedissues">
-        <span class="b">{{issue.number}} </span> {{issue.title}} by <em>{{issue.user.login}}</em>
+        <span class="b">{{issue.number}} </span> <span contenteditable="true">{{issue.title}} by <em>{{issue.user.login}}</em></span>
         </li>
       </ul>
     </section>
     <section is="o_stories">
-      <h2> new stories for next milestone </h2>
+      <h2> stories for next milestone </h2>
       <ul class="list pl0 tl">
         <li *ngFor="let issue of openissues">
-        <span class="b">{{issue.number}} </span>  {{issue.title}}
+        <span class="b">{{issue.number}} </span>  <span contenteditable="true">{{issue.title}}</span>
         </li>
       </ul>
     </section>
     </div>
   </div>
 </div>
-
+<br>
 <input *ngIf="openissues || closedissues" type="button" (click)="downloadPage()" value="export to html" class="ml6"/>
