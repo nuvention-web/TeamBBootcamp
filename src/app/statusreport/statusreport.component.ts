@@ -40,8 +40,9 @@ export class StatusreportComponent implements OnInit {
   }
 
   filterIssues(issues): void {
-  	this.openissues = issues.filter(issue => issue.state == "open")
-  	this.closedissues = issues.filter(issue => issue.state == "closed")
+    var storyIssues = issues.filter(issue => issue.labels.length > 0)
+  	this.openissues = storyIssues.filter(issue => issue.state == "open")
+  	this.closedissues = storyIssues.filter(issue => issue.state == "closed")
   }
 
 	getIssues(repositoryUrl): void {
