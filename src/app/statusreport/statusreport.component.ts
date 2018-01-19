@@ -32,6 +32,13 @@ export class StatusreportComponent implements OnInit {
   }
 
   downloadPage(): void {
+    // this hides the buttons that add new tasks, there is proabably a better way to do this b/c it remains hidden
+    var button1 = document.getElementById("c_tasks_button");
+    var button2 = document.getElementById("o_stories_button");
+
+    button1.setAttribute('hidden', 'true');
+    button2.setAttribute('hidden', 'true');
+
     var html = document.getElementById('body').innerHTML;
     var htmlContent = [html];
     var bl = new Blob(htmlContent, {type: "text/html"});
@@ -64,6 +71,28 @@ export class StatusreportComponent implements OnInit {
   setMilestones(milestones): void {
     this.nextMilestone = milestones[0].title;
     this.currentMilestone = milestones[1].title;
+  }
+
+  newTaskItem(section): void {
+    var task = document.createElement("dl");
+    var text = document.createTextNode("task information");
+    var number = document.createTextNode("#:");
+    var taskNumber = document.createElement("dt");
+    var taskItem = document.createElement("dd");
+
+    task.classList.add("f6", "lh-title", "mv2");
+    taskNumber.classList.add("dib", "b");
+    taskItem.classList.add("dib", "ml1", "gray");
+
+    task.setAttribute("contenteditable", "true");
+    // taskNumber.setAttribute("contenteditable", "true");
+    // taskItem.setAttribute("contenteditable", "true");
+
+    taskItem.appendChild(text);
+    taskNumber.appendChild(number);
+    task.appendChild(taskNumber);
+    task.appendChild(taskItem);
+    document.getElementById(section).appendChild(task);
   }
 
   getFormattedDate(dateObj = null): string {
