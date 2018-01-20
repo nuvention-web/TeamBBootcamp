@@ -34,8 +34,10 @@ export class StatusreportComponent implements OnInit {
 
   downloadPage(): void {
     //change dropdown to text
-    var milestoneSelect = document.getElementById("milestoneSelect");
-    milestoneSelect.replaceWith(milestoneSelect.value.split(': ')[1]);
+    var milestoneSelect = document.getElementById('milestoneSelect');
+    var milestoneSelectParent = milestoneSelect.parentNode;
+    var p = document.createTextNode((<HTMLInputElement> milestoneSelect).value.split(': ')[1]);
+    milestoneSelectParent.replaceChild(p, milestoneSelect);
 
     // this hides the buttons that add new tasks, there is proabably a better way to do this b/c it remains hidden
     var button1 = document.getElementById("c_tasks_button");
@@ -55,6 +57,9 @@ export class StatusreportComponent implements OnInit {
     document.body.appendChild(a);
     a.innerHTML = "something random - nobody will see this, it doesn't matter what you put here";
     a.click();
+
+    //revert selector
+    milestoneSelectParent.replaceChild(milestoneSelect, p);
   }
 
   filterIssues(issues): void {
