@@ -8,13 +8,16 @@ import { IssueService }  from '../issue.service';
 })
 export class StatusreportComponent implements OnInit {
 
-	openissues:any = null
+	allissues:any = null
+  openissues:any = null
 	closedissues:any = null
 	repositoryowner: string = "nuvention-web"
 	repositoryname: string = "teambbootcamp"
   dateString: string = ""
-  currentMilestone: string = ""
-  nextMilestone: string = ""
+  milestones: any = []
+  milestoneTitles: any = []
+  selectedMilestone: string = ""
+
 
   SECONDS_IN_DAY: any = 60000*60*24
 
@@ -22,13 +25,11 @@ export class StatusreportComponent implements OnInit {
   constructor(private issueService: IssueService) { }
 
   ngOnInit() {
-    this.dateString = this.getFormattedDate()
   }
 
   getStatusReport(): void {
   	var repositoryUrl = "https://api.github.com/repos/" + this.repositoryowner + "/" + this.repositoryname + "/issues?state=all"
   	this.getIssues(repositoryUrl);
-    this.updateMilestones();
   }
 
   downloadPage(): void {
@@ -53,9 +54,10 @@ export class StatusreportComponent implements OnInit {
   }
 
   filterIssues(issues): void {
-    var storyIssues = issues.filter(issue => issue.labels.length > 0)
-  	this.openissues = storyIssues.filter(issue => issue.state == "open")
-  	this.closedissues = storyIssues.filter(issue => issue.state == "closed")
+    this.allissues = issues.filter(issue => issue.labels.length > 0);
+    this.openissues = this.allissues.filter(issue => issue.state == "open");
+  	this.closedissues = this.allissues.filter(issue => issue.state == "closed");
+    this.updateMilestones();
   }
 
 	getIssues(repositoryUrl): void {
@@ -69,8 +71,27 @@ export class StatusreportComponent implements OnInit {
   }
 
   setMilestones(milestones): void {
-    this.nextMilestone = milestones[0].title;
-    this.currentMilestone = milestones[1].title;
+    milestones.sort((m1,m2) => m1.due_on > m2.due_on);
+    this.milestones = milestones;
+    var milestoneTitles = this.milestones.map(m => m.title);
+    this.milestoneTitles = [];
+    for (var i=1;i<milestoneTitles.length;i++) {
+      var milestoneString = milestoneTitles[i-1] + ' - ' + milestoneTitles[i];
+      this.milestoneTitles.push(milestoneString);
+    }
+    this.onSelectedMilestoneChange(this.milestoneTitles[this.milestoneTitles.length-1]);
+  }
+
+  onSelectedMilestoneChange(newSelectedMilestone) {
+    this.selectedMilestone = newSelectedMilestone;
+    var nextMilestoneTitle = newSelectedMilestone.split(' - ')[1];
+    this.openissues = this.allissues.filter(issue => (issue.state == "open" && issue.milestone.title == nextMilestoneTitle));
+    this.closedissues = this.allissues.filter(issue => (issue.state == "closed" && issue.milestone.title == nextMilestoneTitle));
+    this.allissues.filter(issue => (issue.state == "open" && issue.milestone.title == nextMilestoneTitle));
+
+    var nextMilestoneObj = this.milestones.filter(milestone => milestone.title == nextMilestoneTitle)[0];
+    var prevMilestoneObj = this.milestones[this.milestones.indexOf(nextMilestoneObj)-1];
+    this.dateString = this.getFormattedDate(new Date(prevMilestoneObj.due_on)) + ' - ' + this.getFormattedDate(new Date(nextMilestoneObj.due_on));
   }
 
   newTaskItem(section): void {
@@ -103,11 +124,6 @@ export class StatusreportComponent implements OnInit {
     var year = dateObj.getUTCFullYear();
 
     return month + "/" + day + "/" + year;
-  }
-
-  getDateSomeDaysAgo(days): string {
-    var newDateObj = new Date(new Date().getTime()-this.SECONDS_IN_DAY*days);
-    return this.getFormattedDate(newDateObj);
   }
 
 }

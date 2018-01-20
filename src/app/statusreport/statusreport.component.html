@@ -24,9 +24,11 @@
       <div class="">
         <h1 contenteditable="true" class="mt0"> status report: {{repositoryname}}</h1>
         <section id="info">
-          <p><span class="b" contenteditable="true">{{getDateSomeDaysAgo(7)}} - {{dateString}}</span>
-          <p><span class="b">milestone: </span> {{currentMilestone}}
-            <span class="b">next milestone:</span> {{nextMilestone}} </p>
+          <span class="b">milestone: </span>
+          <select [(ngModel)]="selectedMilestone" (change)="onSelectedMilestoneChange($event.target.value)">
+            <option *ngFor="let milestone of milestoneTitles" [ngValue]="milestone">{{milestone}}</option>
+          </select>
+          <p>Dates: <span class="b" contenteditable="true">{{dateString}}</span><p>
         </section>
         <section id="summary">
           <h2> summary </h2>
@@ -44,7 +46,7 @@
         </section>
         <input id="c_tasks_button" class="bg-white tc bg-animate dim black bw0 w-80 f6 pa0" *ngIf="openissues || closedissues" type="button" (click)="newTaskItem('c_tasks')" value="add completed task">
         <section id="o_stories">
-          <h2> new stories for next milestone </h2>
+          <h2> open stories for next milestone </h2>
           <dl *ngFor="let issue of openissues" class="f6 lh-title mv2">
             <dt class="dib b">{{issue.number}}:</dt>
             <dd class="dib ml0 gray">{{issue.title}}</dd>
