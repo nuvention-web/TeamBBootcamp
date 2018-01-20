@@ -24,9 +24,12 @@
       <div class="">
         <h1 contenteditable="true" class="mt0"> status report: {{repositoryname}}</h1>
         <section id="info">
-          <p><span class="b" contenteditable="true">{{getDateSomeDaysAgo(7)}} - {{dateString}}</span>
-          <p><span class="b">milestone: </span> {{currentMilestone}}
-            <span class="b">next milestone:</span> {{nextMilestone}} </p>
+          <p>Sprint: <span class="b" contenteditable="true">{{getDateSomeDaysAgo(7)}} - {{dateString}}</span>
+          <p>
+            <span class="b">milestone: </span>
+            <select [(ngModel)]="selectedMilestone">
+              <option *ngFor="let milestone of milestones" [ngValue]="milestone">{{milestone}}</option>
+            </select>
         </section>
         <section id="summary">
           <h2> summary </h2>

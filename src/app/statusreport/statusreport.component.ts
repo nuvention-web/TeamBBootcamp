@@ -13,8 +13,9 @@ export class StatusreportComponent implements OnInit {
 	repositoryowner: string = "nuvention-web"
 	repositoryname: string = "teambbootcamp"
   dateString: string = ""
-  currentMilestone: string = ""
-  nextMilestone: string = ""
+  milestones: any = []
+  selectedMilestone: string = ""
+
 
   SECONDS_IN_DAY: any = 60000*60*24
 
@@ -69,8 +70,14 @@ export class StatusreportComponent implements OnInit {
   }
 
   setMilestones(milestones): void {
-    this.nextMilestone = milestones[0].title;
-    this.currentMilestone = milestones[1].title;
+    milestones.sort((m1,m2) => m1.due_on > m2.due_on);
+    var milestoneTitles = milestones.map(m => m.title);
+    this.milestones = [];
+    for (var i=1;i<milestoneTitles.length;i++) {
+      var milestoneString = milestoneTitles[i-1] + ' - ' + milestoneTitles[i];
+      this.milestones.push(milestoneString);
+    }
+    this.selectedMilestone = this.milestones[0];
   }
 
   newTaskItem(section): void {
