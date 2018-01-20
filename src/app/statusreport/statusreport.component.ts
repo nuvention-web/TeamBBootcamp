@@ -33,6 +33,10 @@ export class StatusreportComponent implements OnInit {
   }
 
   downloadPage(): void {
+    //change dropdown to text
+    var milestoneSelect = document.getElementById("milestoneSelect");
+    milestoneSelect.replaceWith(milestoneSelect.value.split(': ')[1]);
+
     // this hides the buttons that add new tasks, there is proabably a better way to do this b/c it remains hidden
     var button1 = document.getElementById("c_tasks_button");
     var button2 = document.getElementById("o_stories_button");

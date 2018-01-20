@@ -25,10 +25,11 @@
         <h1 contenteditable="true" class="mt0"> status report: {{repositoryname}}</h1>
         <section id="info">
           <span class="b">milestone: </span>
-          <select [(ngModel)]="selectedMilestone" (change)="onSelectedMilestoneChange($event.target.value)">
+          <select id="milestoneSelect" [(ngModel)]="selectedMilestone" (change)="onSelectedMilestoneChange($event.target.value)">
             <option *ngFor="let milestone of milestoneTitles" [ngValue]="milestone">{{milestone}}</option>
           </select>
-          <p>Dates: <span class="b" contenteditable="true">{{dateString}}</span><p>
+          <br><br>
+          <span class="b">Dates: </span><span contenteditable="true">{{dateString}}</span>
         </section>
         <section id="summary">
           <h2> summary </h2>
