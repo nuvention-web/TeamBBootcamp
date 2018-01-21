@@ -75,7 +75,8 @@ export class StatusreportComponent implements OnInit {
 	}
 
   updateMilestones(): void {
-    this.issueService.getIssues("https://api.github.com/repos/nuvention-web/TeamBBootcamp/milestones")
+    var repoUrl = "https://api.github.com/repos/" + this.repositoryowner + "/" + this.repositoryname + "/milestones";
+    this.issueService.getIssues(repoUrl)
       .subscribe(milestones => this.setMilestones(milestones));
   }
 
