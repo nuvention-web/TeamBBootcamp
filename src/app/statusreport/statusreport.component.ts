@@ -17,7 +17,8 @@ export class StatusreportComponent implements OnInit {
   milestones: any = []
   milestoneTitles: any = []
   selectedMilestone: string = ""
-
+  newTaskCount: number = 0
+  completedTaskCount: number = 0
 
   SECONDS_IN_DAY: any = 60000*60*24
 
@@ -39,13 +40,7 @@ export class StatusreportComponent implements OnInit {
     var p = document.createTextNode((<HTMLInputElement> milestoneSelect).value.split(': ')[1]);
     milestoneSelectParent.replaceChild(p, milestoneSelect);
 
-    // this hides the buttons that add new tasks, there is proabably a better way to do this b/c it remains hidden
-    var button1 = document.getElementById("c_tasks_button");
-    var button2 = document.getElementById("o_stories_button");
-
-    button1.setAttribute('hidden', 'true');
-    button2.setAttribute('hidden', 'true');
-
+    this.hideButtons();
     var html = document.getElementById('body').innerHTML;
     var htmlContent = [html];
     var bl = new Blob(htmlContent, {type: "text/html"});
@@ -60,6 +55,21 @@ export class StatusreportComponent implements OnInit {
 
     //revert selector
     milestoneSelectParent.replaceChild(milestoneSelect, p);
+  }
+
+  hideButtons(): void {
+    // this hides the buttons that add new tasks, there is proabably a better way to do this b/c it remains hidden
+    var button1 = document.getElementById("c_tasks_button");
+    var button2 = document.getElementById("o_stories_button");
+    button1.setAttribute('hidden', 'true');
+    button2.setAttribute('hidden', 'true');
+  }
+
+  editMode(): void {
+    var button1 = document.getElementById("c_tasks_button");
+    var button2 = document.getElementById("o_stories_button");
+    button1.removeAttribute('hidden');
+    button2.removeAttribute('hidden');
   }
 
   filterIssues(issues): void {
@@ -107,7 +117,15 @@ export class StatusreportComponent implements OnInit {
   newTaskItem(section): void {
     var task = document.createElement("dl");
     var text = document.createTextNode("task information");
-    var number = document.createTextNode("#:");
+
+    if (section == "c_tasks") {
+      this.completedTaskCount++;
+      var number = document.createTextNode((this.completedTaskCount.toString() + ":"));
+    }
+    if (section == "o_stories") {
+      this.newTaskCount++;
+      var number = document.createTextNode((this.newTaskCount.toString() + ":"));
+    }
     var taskNumber = document.createElement("dt");
     var taskItem = document.createElement("dd");
 
@@ -116,8 +134,6 @@ export class StatusreportComponent implements OnInit {
     taskItem.classList.add("dib", "ml1", "gray");
 
     task.setAttribute("contenteditable", "true");
-    // taskNumber.setAttribute("contenteditable", "true");
-    // taskItem.setAttribute("contenteditable", "true");
 
     taskItem.appendChild(text);
     taskNumber.appendChild(number);
