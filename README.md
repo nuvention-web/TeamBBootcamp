@@ -1,6 +1,25 @@
-#  NUvention Code Bootcamp - Github Status Report Project
+
+
+# How this website works:
+
+Access it at <https://teambbootcamp.firebaseapp.com/statusreport>
+
+We construct a status report assuming the following repo/development practices:
+1. For each story, an issue is opened and assigned the "story" label as well as an appropriate milestone
+2. Developers who complete a story close the relevant issue in their pull request
+3. Milestones are assigned dates (deadlines)
+4. Sprints take place for each milestone
+
+## What's contained in the report
+
+The report pulls the issues and milestones for the specified repo. Completed stories contains the completed issues with the "story" label and with the selected milestone (use the dropdown to change the selected sprint). The completed tasks section allows you to add completed tasks other than stories (for example, configuring a new server). Finally, the stories and tasks for next milestone contains all open "story" issues assigned to the next milestone, and allows you to add in custom tasks as well.
+
+##  NUvention Code Bootcamp - Github Status Report Project
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
+
+
+# Angular-generated development docs
 
 ## Development server
 
