@@ -46,7 +46,7 @@
         </section>
         <input id="c_tasks_button" class="bg-white tc bg-animate dim black bw0 w-80 f6 pa0" *ngIf="openissues || closedissues" type="button" (click)="newTaskItem('c_tasks')" value="add completed task">
         <section id="o_stories">
-          <h2> stories and tasks for next milestone </h2>
+          <h2> backlogged stories and tasks for next milestone </h2>
           <dl *ngFor="let issue of openissues" class="f6 lh-title mv2">
             <dt class="dib b">{{issue.number}}:</dt>
             <dd class="dib ml0 gray">{{issue.title}}</dd>
